@@ -1,0 +1,33 @@
+//Led ON OFF NodeMCU 
+#include<ESP8266WiFi.h>
+WiFiClient client; 
+WiFiServer server(80); 
+#define int D5 
+void setup() {
+Serial.begin(9600); 
+WiFi.begin("OPPO F19 Pro","Pakistan"); 
+while(WiFi.status()!=WL_CONNECTED) { 
+Serial.print("."); 
+delay(100);
+}
+Serial.println();
+Serial.println("Wifi is connected"); 
+Serial.println(WiFi.localIP()); 
+server.begin(); 
+pinMode(D5,OUTPUT); 
+}
+void loop() { 
+client=server.available();
+if(client==1) { 
+String request=client.readStringUntil('\n'); 
+request.trim(); 
+if(request=="GET /ledon HTTP/1.1") { 
+digitalWrite(D5,HIGH);
+Serial.println("LED is ON");
+}
+else if(request=="GET /ledoff HTTP/1.1") { 
+digitalWrite(D5,LOW); 
+Serial.println("LED is OFF"); 
+} 
+} 
+}
