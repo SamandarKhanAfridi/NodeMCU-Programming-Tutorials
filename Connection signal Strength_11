@@ -1,0 +1,23 @@
+//connection signal Strength
+#include<ESP8266WiFi.h> 
+const char* SSID="OPPO F19 Pro";
+const char* password="Pakistan";
+void setup() {
+Serial.begin(115200); 
+Serial.println();
+Serial.print("Setting WiFi Mode");
+WiFi.mode(WIFI_STA); 
+WiFi.begin(SSID,password); 
+Serial.print("Connecting to ..."); 
+Serial.print(SSID); 
+while(WiFi.status()!=WL_CONNECTED) {
+delay(500);
+Serial.print("..."); 
+}
+Serial.print("connected IP address"); 
+Serial.println(WiFi.localIP()); 
+}
+void loop() {
+Serial.printf("Single Strength in dB=%d \n",WiFi.RSSI());
+delay(3000); 
+}
