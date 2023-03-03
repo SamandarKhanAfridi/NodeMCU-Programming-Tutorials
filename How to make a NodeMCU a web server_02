@@ -1,0 +1,23 @@
+//How to make a NodeMCU a web server
+#include<ESP8266WiFi.h> 
+WiFiClient client; 
+WiFiServer server(80); 
+void setup() { 
+Serial.begin(9600); 
+WiFi.begin("OPPO F19 Pro","Pakistan"); 
+while(WiFi.status()!=WL_CONNECTED) {
+Serial.print("...");
+delay(200); 
+}
+Serial.println();
+Serial.println("WiFi is connected");
+Serial.println(WiFi.localIP()); 
+server.begin(); 
+}
+void loop() { 
+client=server.available(); 
+if(client==1) { 
+String request=client.readStringUntil('\n'); 
+Serial.println(request); 
+} 
+}
