@@ -1,0 +1,12 @@
+//Getting MAC address 
+//SamandarKhanAfridi
+#include<ESP8266WiFi.h> 
+void setup() {
+delay(10);
+Serial.begin(115200); 
+}
+void loop() { 
+Serial.print("ESP8266 MAC:"); 
+Serial.println(WiFi.macAddress()); 
+delay(8000); 
+}
