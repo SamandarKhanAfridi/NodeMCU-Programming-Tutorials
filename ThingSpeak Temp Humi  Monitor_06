@@ -1,0 +1,33 @@
+//ESP ThingSpeak Temp:&Humi: Monitor 
+#include<ESP8266WiFi.h>
+#include<DHT.h>
+#include<ThingSpeak.h>
+WiFiClient client;
+#define dhtPin D4
+DHT dht(dhtPin,DHT11); 
+const int myChannelNumber=1546421; 
+char myWriteAPIKey[]="SKZPFTC6IEWCGJAI";
+void setup() {
+Serial.begin(9600); 
+WiFi.begin("OPPO F19 Pro","Pakistan"); 
+while(WiFi.status()!=WL_CONNECTED) { 
+Serial.print("."); 
+delay(200); 
+}
+Serial.println();
+Serial.println("NodeMCU is connected");
+ThingSpeak.begin(client);
+}
+void loop() {
+float h = dht.readHumidity(); 
+float t = dht.readTemperature(); 
+Serial.print("humidity = ");
+Serial.print(h);
+Serial.print("% "); 
+Serial.print("temperature = "); 
+Serial.print(t);
+Serial.println("C ");
+ThingSpeak.writeField(myChannelNumber,1,t,myWriteAPIKey);
+ThingSpeak.writeField(myChannelNumber,2,h,myWriteAPIKey);
+delay(5000); 
+}
