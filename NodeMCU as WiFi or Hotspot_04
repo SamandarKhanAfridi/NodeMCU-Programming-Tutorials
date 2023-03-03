@@ -1,0 +1,28 @@
+//NodeMCU as WiFi or Hotspot 
+#include<ESP8266WiFi.h> 
+WiFiClient client; 
+WiFiServer server(80); 
+#define int D5 
+void setup() { 
+Serial.begin(9600);
+WiFi.softAP("NodeMCU","12345678"); 
+Serial.println(); 
+Serial.println("NodeMCU is started"); 
+Serial.println(WiFi.softAPIP());
+pinMode(D5,OUTPUT);
+server.begin(9600); 
+}
+void loop() { 
+client=server.available();
+if (client==1) {
+String request=client.readStringUntil('\n');
+Serial.println(request);
+request.trim(); 
+if (request=="GET /ledon HTTP/1.1") { 
+digitalWrite(D5,HIGH); 
+}
+if (request=="GET /ledoff HTTP/1.1") { 
+digitalWrite(D5,LOW);
+}
+} 
+}
