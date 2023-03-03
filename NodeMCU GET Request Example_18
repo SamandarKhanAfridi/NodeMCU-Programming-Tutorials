@@ -1,0 +1,46 @@
+//NodeMCU GET Request Example
+#include<ESP8266WiFi.h>
+#include<WiFiClient.h>
+#include<ESP8266HTTPClient.h>
+const char* wifiName="One";
+const char* wifiPass="12345678";
+const char* host="http://httpbin.org/get";
+void setup()
+{
+  Serial.begin(115200);
+  delay(10);
+  Serial.println();
+  Serial.print("Connecting to ");
+  Serial.println(wifiName);
+  WiFi.begin(wifiName,wifiPass);
+  while(WiFi.status()!=WL_CONNECTED)
+  {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("Wi-Fi Connected");
+  Serial.println("IP Address");
+  Serial.println(WiFi.localIP());
+}
+void loop()
+{
+  WiFiClient client;
+  HTTPClient http;//declare object of class HTTPClient
+  String ADCData=String(analogRead(A0));
+  String getData,link;
+  //Get Data
+  //Note"?" added at front and "&" is used after each new parameter as per GET formet
+  getData="?data="+ADCData+"&sensor=temperature";
+  String Link=host+getData;
+  Serial.print("Request Link");
+  Serial.println(Link);
+  http.begin(client,Link);
+  int httpCode=http.GET();
+  String payload=http.getString();
+  Serial.print("Response Code:");
+  Serial.println(httpCode);//Print HTTP return code
+  Serial.print("Returned data from Server:");
+  Serial.println(payload);//Print request response payload
+  http.end();//Close connection
+  delay(5000);
+}
