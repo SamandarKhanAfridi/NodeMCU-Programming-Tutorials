@@ -1,0 +1,15 @@
+1//HOW to connect NodeMCU to wifi 
+#include<ESP8266WiFi.h>
+void setup() { 
+Serial.begin(9600); 
+WiFi.begin("OPPO F19 Pro","Pakistan"); 
+while(WiFi.status()!=WL_CONNECTED) { 
+Serial.print("...");
+delay(200); 
+}
+Serial.println(); 
+Serial.println("NodeMCU is connected");
+Serial.print(WiFi.localIP()); 
+}
+void loop() {
+}
